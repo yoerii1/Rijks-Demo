@@ -31,7 +31,8 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ArtOverviewScreen(
-    viewModel: ArtOverviewViewModel = getViewModel()
+    viewModel: ArtOverviewViewModel = getViewModel(),
+    onArtItemClick: (id: String) -> Unit = {}
 ) {
     val artItems = viewModel.artCollectionFlow.collectAsLazyPagingItems()
     LazyColumn(
