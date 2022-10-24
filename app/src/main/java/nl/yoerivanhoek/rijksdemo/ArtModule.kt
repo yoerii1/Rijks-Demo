@@ -11,7 +11,9 @@ import nl.yoerivanhoek.rijksdemo.data.api.RijksAuthInterceptor
 import nl.yoerivanhoek.rijksdemo.data.mapper.ArtCollectionMapper
 import nl.yoerivanhoek.rijksdemo.data.mapper.ArtDetailsMapper
 import nl.yoerivanhoek.rijksdemo.domain.ArtItemRepository
+import nl.yoerivanhoek.rijksdemo.domain.usecase.GetArtDetails
 import nl.yoerivanhoek.rijksdemo.domain.usecase.GetArtItems
+import nl.yoerivanhoek.rijksdemo.ui.ArtDetailsViewModel
 import nl.yoerivanhoek.rijksdemo.ui.ArtOverviewViewModel
 import nl.yoerivanhoek.rijksdemo.ui.ArtUiModelMapper
 import okhttp3.MediaType.Companion.toMediaType
@@ -29,10 +31,22 @@ val artModule = module {
             artUiModelMapper = get()
         )
     }
+    viewModel { (artId: String) ->
+        ArtDetailsViewModel(
+            artId = artId,
+            getArtDetails = get()
+        )
+    }
 
     factory {
         GetArtItems(
             artItemRepository = get()
+        )
+    }
+
+    factory {
+        GetArtDetails(
+            collectionRepository = get()
         )
     }
 

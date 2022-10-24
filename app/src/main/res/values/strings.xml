@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Rijks Demo</string>
+    <string name="description">Omschrijving</string>
+    <string name="author">Auteur</string>
+    <string name="object_name">Object</string>
+    <string name="global_error_message">Er ging iets mis</string>
+    <string name="global_retry_message">Probeer opnieuw</string>
 </resources>

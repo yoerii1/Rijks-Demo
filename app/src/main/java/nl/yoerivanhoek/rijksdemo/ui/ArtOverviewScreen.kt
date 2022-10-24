@@ -2,6 +2,7 @@ package nl.yoerivanhoek.rijksdemo.ui
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
@@ -31,7 +32,8 @@ import org.koin.androidx.compose.getViewModel
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun ArtOverviewScreen(
-    viewModel: ArtOverviewViewModel = getViewModel()
+    viewModel: ArtOverviewViewModel = getViewModel(),
+    onArtItemClick: (String) -> Unit = {}
 ) {
     val artItems = viewModel.artCollectionFlow.collectAsLazyPagingItems()
     LazyColumn(
@@ -47,7 +49,12 @@ fun ArtOverviewScreen(
                     }
                     is ArtItem -> item {
                         val artData = artItems[index] as ArtItem
-                        ArtItem(modifier = Modifier.fillMaxWidth(), artItem = artData)
+                        ArtItem(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onArtItemClick(artData.id) },
+                            artItem = artData
+                        )
                     }
                 }
             }

@@ -28,6 +28,7 @@ internal class ArtOverviewViewModelTest {
     val coroutines = TestCoroutineExtension()
 
     private val getArtItems: GetArtItems = mockk()
+    private val mapper = ArtUiModelMapper
 
     private val artItemsFlow = MutableStateFlow<PagingData<ArtItem>>(PagingData.empty())
 
@@ -48,7 +49,7 @@ internal class ArtOverviewViewModelTest {
         )
 
         // When
-        val viewModel = ArtOverviewViewModel(getArtItems)
+        val viewModel = ArtOverviewViewModel(getArtItems, mapper)
         artItemsFlow.value = PagingData.from(artItems)
 
         // Then
