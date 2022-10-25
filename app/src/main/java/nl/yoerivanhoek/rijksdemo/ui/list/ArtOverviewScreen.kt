@@ -1,4 +1,4 @@
-package nl.yoerivanhoek.rijksdemo.ui
+package nl.yoerivanhoek.rijksdemo.ui.list
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background

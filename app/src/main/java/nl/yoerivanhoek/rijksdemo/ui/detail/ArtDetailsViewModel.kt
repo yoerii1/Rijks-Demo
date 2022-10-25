@@ -1,4 +1,4 @@
-package nl.yoerivanhoek.rijksdemo.ui
+package nl.yoerivanhoek.rijksdemo.ui.detail
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -6,9 +6,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import nl.yoerivanhoek.rijksdemo.domain.usecase.GetArtDetails
-import nl.yoerivanhoek.rijksdemo.ui.ArtDetailsViewModel.ArtDetailsState.Details
-import nl.yoerivanhoek.rijksdemo.ui.ArtDetailsViewModel.ArtDetailsState.Error
-import nl.yoerivanhoek.rijksdemo.ui.ArtDetailsViewModel.ArtDetailsState.Loading
+import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.Details
+import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.Error
+import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.Loading
 
 class ArtDetailsViewModel(
     private val artId: String,

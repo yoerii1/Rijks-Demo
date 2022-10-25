@@ -1,4 +1,4 @@
-package nl.yoerivanhoek.rijksdemo.ui
+package nl.yoerivanhoek.rijksdemo.ui.list
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,7 +7,6 @@ import androidx.paging.insertSeparators
 import androidx.paging.map
 import kotlinx.coroutines.flow.map
 import nl.yoerivanhoek.rijksdemo.domain.usecase.GetArtItems
-import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel.ArtItem
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel.AuthorSeparator
 

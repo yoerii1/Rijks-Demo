@@ -9,8 +9,9 @@ import nl.yoerivanhoek.rijksdemo.domain.ArtItemRepository
 import nl.yoerivanhoek.rijksdemo.domain.model.ArtDetails
 import nl.yoerivanhoek.rijksdemo.domain.model.ArtItem
 import nl.yoerivanhoek.rijksdemo.domain.usecase.GetArtDetails
-import nl.yoerivanhoek.rijksdemo.ui.ArtDetailsViewModel.ArtDetailsState.Details
-import nl.yoerivanhoek.rijksdemo.ui.ArtDetailsViewModel.ArtDetailsState.Error
+import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel
+import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.Details
+import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.Error
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test

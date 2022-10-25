@@ -4,10 +4,8 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import nl.yoerivanhoek.rijksdemo.data.api.CollectionApiService
-import nl.yoerivanhoek.rijksdemo.data.model.*
-import nl.yoerivanhoek.rijksdemo.ui.ArtOverviewScreen
+import nl.yoerivanhoek.rijksdemo.ui.list.ArtOverviewScreen
 import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 

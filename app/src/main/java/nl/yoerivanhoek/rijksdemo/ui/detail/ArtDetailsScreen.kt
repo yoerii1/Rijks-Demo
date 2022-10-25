@@ -1,4 +1,4 @@
-package nl.yoerivanhoek.rijksdemo.ui
+package nl.yoerivanhoek.rijksdemo.ui.detail
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -23,7 +23,10 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import nl.yoerivanhoek.rijksdemo.R
 import nl.yoerivanhoek.rijksdemo.TestTags.TAG_ART_DETAILS
-import nl.yoerivanhoek.rijksdemo.ui.ArtDetailsViewModel.ArtDetailsState.*
+import nl.yoerivanhoek.rijksdemo.ui.generic.Chips
+import nl.yoerivanhoek.rijksdemo.ui.list.ErrorView
+import nl.yoerivanhoek.rijksdemo.ui.list.LoadingView
+import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.*
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 

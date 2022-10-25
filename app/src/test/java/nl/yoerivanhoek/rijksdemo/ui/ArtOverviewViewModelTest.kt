@@ -13,6 +13,8 @@ import kotlinx.coroutines.test.runTest
 import nl.yoerivanhoek.rijksdemo.TestCoroutineExtension
 import nl.yoerivanhoek.rijksdemo.domain.model.ArtItem
 import nl.yoerivanhoek.rijksdemo.domain.usecase.GetArtItems
+import nl.yoerivanhoek.rijksdemo.ui.list.ArtOverviewViewModel
+import nl.yoerivanhoek.rijksdemo.ui.list.ArtUiModelMapper
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach

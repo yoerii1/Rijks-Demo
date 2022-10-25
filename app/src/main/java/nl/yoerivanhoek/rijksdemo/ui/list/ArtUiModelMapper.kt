@@ -1,4 +1,4 @@
-package nl.yoerivanhoek.rijksdemo.ui
+package nl.yoerivanhoek.rijksdemo.ui.list
 
 import nl.yoerivanhoek.rijksdemo.domain.model.ArtItem
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel

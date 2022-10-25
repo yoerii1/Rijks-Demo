@@ -1,4 +1,4 @@
-package nl.yoerivanhoek.rijksdemo.ui
+package nl.yoerivanhoek.rijksdemo.ui.generic
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow

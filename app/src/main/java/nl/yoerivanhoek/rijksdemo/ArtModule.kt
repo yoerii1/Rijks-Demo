@@ -13,9 +13,9 @@ import nl.yoerivanhoek.rijksdemo.data.mapper.ArtDetailsMapper
 import nl.yoerivanhoek.rijksdemo.domain.ArtItemRepository
 import nl.yoerivanhoek.rijksdemo.domain.usecase.GetArtDetails
 import nl.yoerivanhoek.rijksdemo.domain.usecase.GetArtItems
-import nl.yoerivanhoek.rijksdemo.ui.ArtDetailsViewModel
-import nl.yoerivanhoek.rijksdemo.ui.ArtOverviewViewModel
-import nl.yoerivanhoek.rijksdemo.ui.ArtUiModelMapper
+import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel
+import nl.yoerivanhoek.rijksdemo.ui.list.ArtOverviewViewModel
+import nl.yoerivanhoek.rijksdemo.ui.list.ArtUiModelMapper
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import org.koin.android.ext.koin.androidApplication
