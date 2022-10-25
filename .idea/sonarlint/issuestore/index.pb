@@ -1,8 +1,6 @@
 
 9
 	README.md,8/e/8ec9a00bfd09b3190ac6b22251dbb1aa95a0579d
-s
-Capp/src/main/java/nl/yoerivanhoek/rijksdemo/RijksDemoApplication.kt,d/6/d6d1804f7b91262f1b74a82249e774e5f779be43
 P
  app/src/main/AndroidManifest.xml,8/c/8c55c3ccc257e5907959013f99656e4c8ec3903e
 y
@@ -25,5 +23,3 @@ r
 Bapp/src/main/java/nl/yoerivanhoek/rijksdemo/ui/ArtUiModelMapper.kt,3/5/3534ee228e71719c856f07b8cf364168930a6728
 y
 Iapp/src/main/java/nl/yoerivanhoek/rijksdemo/data/ArtItemRepositoryImpl.kt,9/0/90ccfcc057a4c53cd8d63f5ebbffb049443fed63
-z
-Japp/src/main/java/nl/yoerivanhoek/rijksdemo/data/CollectionPagingSource.kt,b/6/b6938d67f41ba4af3a2de13204e54c6f9d311b7f

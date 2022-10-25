@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -21,6 +22,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import nl.yoerivanhoek.rijksdemo.R
+import nl.yoerivanhoek.rijksdemo.TestTags.TAG_ART_DETAILS
 import nl.yoerivanhoek.rijksdemo.ui.ArtDetailsViewModel.ArtDetailsState.*
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
@@ -33,16 +35,21 @@ fun ArtDetailsScreen(
 ) {
     val artDetailsState by artDetailsViewModel.artDetailsState.observeAsState()
 
-    when (val state = artDetailsState) {
-        is Details -> ArtDetail(state) {
-            navController.popBackStack()
+    Box(modifier = Modifier
+        .fillMaxSize()
+        .testTag(TAG_ART_DETAILS)) {
+        when (val state = artDetailsState) {
+            is Details -> ArtDetail(state) {
+                navController.popBackStack()
+            }
+            Error -> ErrorView(message = stringResource(id = R.string.global_error_message)) {
+                artDetailsViewModel.onRetry()
+            }
+            Loading -> Box(modifier = Modifier.fillMaxSize()) {
+                LoadingView(modifier = Modifier.align(Alignment.Center))
+            }
+            else -> Unit
         }
-        Error -> ErrorView(message = stringResource(id = R.string.global_error_message)) {
-            artDetailsViewModel.onRetry()
-        }
-        Loading -> Box(modifier = Modifier.fillMaxSize()) {
-            LoadingView(modifier = Modifier.align(Alignment.Center))
-        } else -> Unit
     }
 }
 
