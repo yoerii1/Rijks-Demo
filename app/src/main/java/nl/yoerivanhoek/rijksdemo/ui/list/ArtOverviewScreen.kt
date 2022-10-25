@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -42,15 +43,16 @@ fun ArtOverviewScreen(
         LazyColumn(
             Modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colors.background)
+                .background(MaterialTheme.colors.background),
+            state = rememberLazyListState()
         ) {
             for (index in 0 until artItems.itemCount) {
                 artItems.peek(index)?.let {
                     when (it) {
-                        is AuthorSeparator -> stickyHeader {
+                        is AuthorSeparator -> stickyHeader(key = it.author) {
                             AuthorHeader(it.author)
                         }
-                        is ArtItem -> item {
+                        is ArtItem -> item(key = it.id) {
                             val artData = artItems[index] as ArtItem
                             ArtItem(
                                 modifier = Modifier
@@ -120,7 +122,7 @@ private fun LazyItemScope.ListLoadingItem(lazyArtCollection: LazyPagingItems<Art
 }
 
 @Composable
-private fun LazyItemScope.ListErrorItem(lazyArtCollection: LazyPagingItems<ArtUiModel>) {
+private fun ListErrorItem(lazyArtCollection: LazyPagingItems<ArtUiModel>) {
     val loadState = lazyArtCollection.loadState
     when {
         loadState.refresh is LoadState.Error -> {
