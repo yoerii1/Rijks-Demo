@@ -1,5 +1,7 @@
 package nl.yoerivanhoek.rijksdemo.ui.detail
 
+import androidx.annotation.StringRes
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -25,8 +27,8 @@ import nl.yoerivanhoek.rijksdemo.R
 import nl.yoerivanhoek.rijksdemo.TestTags.TAG_ART_DETAILS
 import nl.yoerivanhoek.rijksdemo.ui.generic.Chips
 import nl.yoerivanhoek.rijksdemo.ui.list.ErrorView
-import nl.yoerivanhoek.rijksdemo.ui.list.LoadingView
 import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.*
+import nl.yoerivanhoek.rijksdemo.ui.generic.LoadingView
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -38,101 +40,97 @@ fun ArtDetailsScreen(
 ) {
     val artDetailsState by artDetailsViewModel.artDetailsState.observeAsState()
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .testTag(TAG_ART_DETAILS)) {
-        when (val state = artDetailsState) {
-            is Details -> ArtDetail(state) {
-                navController.popBackStack()
-            }
-            Error -> ErrorView(message = stringResource(id = R.string.global_error_message)) {
-                artDetailsViewModel.onRetry()
-            }
-            Loading -> Box(modifier = Modifier.fillMaxSize()) {
-                LoadingView(modifier = Modifier.align(Alignment.Center))
-            }
-            else -> Unit
-        }
-    }
-}
-
-@Composable
-fun ArtDetail(details: Details, onBackClicked: () -> Unit) {
-    val scrollState = rememberScrollState()
-
-    Column(modifier = Modifier.fillMaxSize()) {
-        BoxWithConstraints {
-            Surface {
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .verticalScroll(scrollState),
-                ) {
-                    Box {
-                        AsyncImage(
-                            modifier = Modifier
-                                .fillMaxSize(),
-                            model = ImageRequest.Builder(LocalContext.current)
-                                .data(details.imageUrl)
-                                .crossfade(300)
-                                .build(),
-                            contentDescription = details.title,
-                            contentScale = ContentScale.Crop
-                        )
-                        Button(onClick = onBackClicked, modifier = Modifier.padding(all = 16.dp)) {
-                            Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = null)
-                        }
-                    }
-                    Column {
-                        ArtTitle(text = details.title)
-                        Chips(titles = details.types, startSpacing = 16.dp, endSpacing = 16.dp)
-                        ArtProperty(
-                            stringResource(
-                                id = R.string.description
-                            ), details.description ?: "-"
-                        )
-                        ArtProperty(
-                            stringResource(
-                                id = R.string.author
-                            ), details.author
-                        )
-                        ArtProperty(
-                            stringResource(
-                                id = R.string.object_name
-                            ), details.objectNumber
-                        )
+    Surface {
+        Box(modifier = Modifier.testTag(TAG_ART_DETAILS)) {
+            when (val state = artDetailsState) {
+                is Details -> ArtDetail(state) {
+                    navController.popBackStack()
+                }
+                Error -> Surface {
+                    ErrorView(
+                        modifier = Modifier.align(Alignment.Center),
+                        message = stringResource(id = R.string.global_error_message)
+                    ) {
+                        artDetailsViewModel.onRetry()
                     }
                 }
+                Loading -> LoadingView(modifier = Modifier.fillMaxSize())
+                else -> Unit
             }
         }
     }
 }
 
 @Composable
-private fun ArtTitle(
-    text: String
-) {
-    Column(modifier = Modifier.padding(all = 16.dp)) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.h5,
-            fontWeight = FontWeight.Bold
-        )
+private fun ArtDetail(details: Details, onBackClicked: () -> Unit) {
+    val scrollState = rememberScrollState()
+
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(scrollState),
+    ) {
+        Box {
+            HeaderImage(details)
+            BackButton(onBackClicked)
+        }
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            ArtTitle(text = details.title)
+            Chips(titles = details.types)
+            ArtProperty(label = R.string.description, value = details.description ?: "-")
+            ArtProperty(label = R.string.author, value = details.author)
+            ArtProperty(label = R.string.object_name, value = details.objectNumber)
+        }
     }
 }
 
 @Composable
-fun ArtProperty(label: String, value: String) {
-    Column(modifier = Modifier.padding(all = 16.dp)) {
-        Divider(modifier = Modifier.padding(bottom = 4.dp))
+private fun HeaderImage(details: Details) {
+    AsyncImage(
+        modifier = Modifier
+            .fillMaxSize(),
+        model = ImageRequest.Builder(LocalContext.current)
+            .data(details.imageUrl)
+            .crossfade(300)
+            .build(),
+        contentDescription = details.title,
+        contentScale = ContentScale.Crop
+    )
+}
+
+@Composable
+private fun BackButton(onBackClicked: () -> Unit) {
+    Button(
+        onClick = onBackClicked,
+        modifier = Modifier.padding(top = 16.dp, start = 16.dp)
+    ) {
+        Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = null)
+    }
+}
+
+@Composable
+private fun ArtTitle(text: String) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.h5,
+        fontWeight = FontWeight.Bold
+    )
+}
+
+@Composable
+private fun ArtProperty(@StringRes label: Int, value: String) {
+    Divider(modifier = Modifier.padding(bottom = 4.dp))
+    Column {
         Text(
-            text = label,
+            text = stringResource(id = label),
             modifier = Modifier.height(24.dp),
             style = MaterialTheme.typography.caption,
         )
         Text(
             text = value,
-            modifier = Modifier.height(24.dp),
             style = MaterialTheme.typography.body1,
             overflow = TextOverflow.Visible
         )

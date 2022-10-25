@@ -5,7 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyItemScope
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +24,8 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import nl.yoerivanhoek.rijksdemo.R
+import nl.yoerivanhoek.rijksdemo.ui.generic.ErrorButton
+import nl.yoerivanhoek.rijksdemo.ui.generic.LoadingView
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel.ArtItem
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel.AuthorSeparator
@@ -36,31 +38,37 @@ fun ArtOverviewScreen(
     onArtItemClick: (String) -> Unit = {}
 ) {
     val artItems = viewModel.artCollectionFlow.collectAsLazyPagingItems()
-    LazyColumn(
-        Modifier
-            .fillMaxSize()
-            .background(MaterialTheme.colors.background)
-    ) {
-        for (index in 0 until artItems.itemCount) {
-            artItems.peek(index)?.let {
-                when (it) {
-                    is AuthorSeparator -> stickyHeader {
-                        AuthorHeader(it.author)
-                    }
-                    is ArtItem -> item {
-                        val artData = artItems[index] as ArtItem
-                        ArtItem(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .clickable { onArtItemClick(artData.id) },
-                            artItem = artData
-                        )
+    Surface {
+        LazyColumn(
+            Modifier
+                .fillMaxSize()
+                .background(MaterialTheme.colors.background)
+        ) {
+            for (index in 0 until artItems.itemCount) {
+                artItems.peek(index)?.let {
+                    when (it) {
+                        is AuthorSeparator -> stickyHeader {
+                            AuthorHeader(it.author)
+                        }
+                        is ArtItem -> item {
+                            val artData = artItems[index] as ArtItem
+                            ArtItem(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { onArtItemClick(artData.id) },
+                                artItem = artData
+                            )
+                        }
                     }
                 }
             }
+            item {
+                ListLoadingItem(artItems)
+            }
+            item {
+                ListErrorItem(artItems)
+            }
         }
-        renderLoading(artItems)
-        renderError(artItems)
     }
 }
 
@@ -93,45 +101,37 @@ private fun AuthorHeader(author: String) {
     }
 }
 
-private fun LazyListScope.renderLoading(lazyArtCollection: LazyPagingItems<ArtUiModel>) {
-    lazyArtCollection.apply {
-        when {
-            loadState.refresh is LoadState.Loading -> {
-                item { LoadingView(modifier = Modifier.fillParentMaxSize()) }
-            }
-            loadState.append is LoadState.Loading -> {
-                item {
-                    CircularProgressIndicator(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(16.dp)
-                            .wrapContentWidth(Alignment.CenterHorizontally)
-                    )
-                }
-            }
-            else -> return
+@Composable
+private fun LazyItemScope.ListLoadingItem(lazyArtCollection: LazyPagingItems<ArtUiModel>) {
+    val loadState = lazyArtCollection.loadState
+    when {
+        loadState.refresh is LoadState.Loading -> {
+            LoadingView(modifier = Modifier.fillParentMaxSize())
+        }
+        loadState.append is LoadState.Loading -> {
+            CircularProgressIndicator(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(16.dp)
+                    .wrapContentWidth(Alignment.CenterHorizontally)
+            )
         }
     }
 }
 
-private fun LazyListScope.renderError(lazyArtCollection: LazyPagingItems<ArtUiModel>) {
-    lazyArtCollection.apply {
-        when {
-            loadState.refresh is LoadState.Error -> {
-                val e = lazyArtCollection.loadState.refresh as LoadState.Error
-                item {
-                    ErrorView(
-                        message = e.error.localizedMessage ?: "",
-                        modifier = Modifier.fillParentMaxSize()
-                    ) { retry() }
-                }
-            }
-            loadState.append is LoadState.Error -> {
-                item {
-                    ErrorButton { retry() }
-                }
-            }
-            else -> return
+@Composable
+private fun LazyItemScope.ListErrorItem(lazyArtCollection: LazyPagingItems<ArtUiModel>) {
+    val loadState = lazyArtCollection.loadState
+    when {
+        loadState.refresh is LoadState.Error -> {
+            val error = lazyArtCollection.loadState.refresh as? LoadState.Error
+            ErrorView(
+                message = error?.error?.localizedMessage ?: "",
+                modifier = Modifier.fillMaxSize()
+            ) { lazyArtCollection.retry() }
+        }
+        loadState.append is LoadState.Error -> {
+            ErrorButton { lazyArtCollection.retry() }
         }
     }
 }
@@ -180,19 +180,6 @@ fun ArtItem(modifier: Modifier = Modifier, artItem: ArtItem) {
 }
 
 @Composable
-fun LoadingView(
-    modifier: Modifier = Modifier
-) {
-    Column(
-        modifier = modifier,
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        CircularProgressIndicator()
-    }
-}
-
-@Composable
 fun ErrorView(
     modifier: Modifier = Modifier,
     message: String,
@@ -203,23 +190,9 @@ fun ErrorView(
             .fillMaxSize()
             .padding(all = 16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
         Text(text = message, textAlign = TextAlign.Center)
-        Spacer(modifier = Modifier.height(16.dp))
         ErrorButton(onClickRetry = onClickRetry)
-    }
-}
-
-@Composable
-fun ErrorButton(onClickRetry: () -> Unit) {
-    Button(
-        modifier = Modifier.padding(all = 8.dp),
-        onClick = onClickRetry
-    ) {
-        Text(
-            text = "Retry",
-            textAlign = TextAlign.Center
-        )
     }
 }

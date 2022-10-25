@@ -1,5 +1,6 @@
 package nl.yoerivanhoek.rijksdemo.ui.list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
@@ -14,6 +15,10 @@ class ArtOverviewViewModel(
     getArtItems: GetArtItems,
     private val artUiModelMapper: ArtUiModelMapper
 ) : ViewModel() {
+
+    init {
+        Log.e("testestest", "$this")
+    }
 
     val artCollectionFlow = getArtItems().map { pagingData ->
         pagingData.map(artUiModelMapper::map)
