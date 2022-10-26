@@ -1,22 +1,25 @@
 package nl.yoerivanhoek.rijksdemo.domain.usecase
 
-import androidx.paging.PagingData
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
 import nl.yoerivanhoek.rijksdemo.domain.ArtItemRepository
 import nl.yoerivanhoek.rijksdemo.domain.model.ArtDetails
-import nl.yoerivanhoek.rijksdemo.domain.model.ArtItem
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.Test
+import org.mockito.kotlin.any
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 
 internal class GetArtDetailsTest {
+
+    private val repository: ArtItemRepository = mock()
 
     @Test
     fun `Given repo returns failure, When getting artDetails, Then return failure`() = runTest {
         // Given
-        val getArtDetails = GetArtDetails(repo(null))
+        whenever(repository.getArtDetails(any())).thenReturn(Result.failure(Exception()))
+
+        val getArtDetails = GetArtDetails(repository)
 
         // When
         val result = getArtDetails("")
@@ -36,7 +39,9 @@ internal class GetArtDetailsTest {
             author = "author",
             imageUrl = "imageUrl",
         )
-        val getArtDetails = GetArtDetails(repo(artDetailsToReturn = expected))
+        whenever(repository.getArtDetails(any())).thenReturn(Result.success(expected))
+
+        val getArtDetails = GetArtDetails(repository)
 
         // When
         val result = getArtDetails("")
@@ -44,15 +49,6 @@ internal class GetArtDetailsTest {
         // Then
         assertTrue(result.isSuccess)
         assertEquals(expected, result.getOrNull())
-    }
-
-    private fun repo(artDetailsToReturn: ArtDetails? = null) = object : ArtItemRepository {
-        override fun getCollection(): Flow<PagingData<ArtItem>> = flowOf()
-
-        override suspend fun getArtDetails(artId: String) = artDetailsToReturn?.let {
-            Result.success(it)
-        } ?: Result.failure(Exception())
-
     }
 
 }

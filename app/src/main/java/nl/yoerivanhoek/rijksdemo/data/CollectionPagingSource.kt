@@ -4,11 +4,6 @@ import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import nl.yoerivanhoek.rijksdemo.domain.model.ArtItem
 
-//TODO:
-// Collection source == domain logic?
-// Let repo map to domain instead of datasource
-// Lifecycle for collecting flow in background?
-
 class CollectionPagingSource(
     private val collectionRemoteDataSource: CollectionRemoteDataSource
 ) : PagingSource<Int, ArtItem>() {

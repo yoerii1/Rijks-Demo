@@ -5,8 +5,6 @@ import androidx.paging.PagingData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListUpdateCallback
 import app.cash.turbine.test
-import io.mockk.every
-import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.test.runTest
@@ -20,6 +18,8 @@ import org.junit.jupiter.api.Assertions.assertTrue
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
+import org.mockito.kotlin.mock
+import org.mockito.kotlin.whenever
 import kotlin.time.ExperimentalTime
 
 @OptIn(ExperimentalTime::class)
@@ -29,14 +29,14 @@ internal class ArtOverviewViewModelTest {
     @RegisterExtension
     val coroutines = TestCoroutineExtension()
 
-    private val getArtItems: GetArtItems = mockk()
+    private val getArtItems: GetArtItems = mock()
     private val mapper = ArtUiModelMapper
 
     private val artItemsFlow = MutableStateFlow<PagingData<ArtItem>>(PagingData.empty())
 
     @BeforeEach
     fun setUp() {
-        every { getArtItems() } returns artItemsFlow
+        whenever(getArtItems()).thenReturn(artItemsFlow)
     }
 
     @Test

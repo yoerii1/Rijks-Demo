@@ -19,26 +19,10 @@ import nl.yoerivanhoek.rijksdemo.ui.theme.Purple500
 fun Chips(
     modifier: Modifier = Modifier,
     titles: List<String>,
-    startSpacing: Dp = 0.dp,
-    endSpacing: Dp = 0.dp
 ) {
-    LazyRow(modifier = modifier) {
-        if (startSpacing != 0.dp) {
-            item {
-                Spacer(Modifier.width(startSpacing))
-            }
-        }
-
-        items(titles) {
-            Chip(
-                name = it,
-            )
-        }
-
-        if (endSpacing != 0.dp) {
-            item {
-                Spacer(Modifier.width(endSpacing))
-            }
+    Row(modifier = modifier, horizontalArrangement = Arrangement.spacedBy(4.dp)) {
+        titles.forEach {
+            Chip(name = it)
         }
     }
 }
@@ -49,19 +33,13 @@ fun Chip(
     backgroundColor: Color = Purple500
 ) {
     Surface(
-        modifier = Modifier
-            .padding(horizontal = 4.dp)
-            .height(32.dp),
         shape = MaterialTheme.shapes.medium,
         color = backgroundColor
     ) {
-        Row(
-            modifier = Modifier
-                .padding(horizontal = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = name.capitalize())
-        }
+        Text(
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+            text = name.capitalize()
+        )
     }
 }
 
