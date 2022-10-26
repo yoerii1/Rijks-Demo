@@ -41,37 +41,35 @@ fun ArtOverviewScreen(
     onArtItemClick: (String) -> Unit = {}
 ) {
     val artItems = viewModel.artCollectionFlow.collectAsLazyPagingItems()
-    Surface {
-        LazyColumn(
-            Modifier
-                .fillMaxSize()
-                .background(MaterialTheme.colors.background),
-            state = artItems.rememberLazyListState()
-        ) {
-            for (index in 0 until artItems.itemCount) {
-                artItems.peek(index)?.let {
-                    when (it) {
-                        is AuthorSeparator -> stickyHeader {
-                            AuthorHeader(it.author)
-                        }
-                        is ArtItem -> item {
-                            val artData = artItems[index] as ArtItem
-                            ArtItem(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .clickable { onArtItemClick(artData.id) },
-                                artItem = artData
-                            )
-                        }
+    LazyColumn(
+        Modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colors.background),
+        state = artItems.rememberLazyListState()
+    ) {
+        for (index in 0 until artItems.itemCount) {
+            artItems.peek(index)?.let {
+                when (it) {
+                    is AuthorSeparator -> stickyHeader {
+                        AuthorHeader(it.author)
+                    }
+                    is ArtItem -> item {
+                        val artData = artItems[index] as ArtItem
+                        ArtItem(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { onArtItemClick(artData.id) },
+                            artItem = artData
+                        )
                     }
                 }
             }
-            item {
-                ListLoadingItem(artItems)
-            }
-            item {
-                ListErrorItem(artItems)
-            }
+        }
+        item {
+            ListLoadingItem(artItems)
+        }
+        item {
+            ListErrorItem(artItems)
         }
     }
 }
@@ -177,7 +175,8 @@ fun ArtItem(modifier: Modifier = Modifier, artItem: ArtItem) {
                 artItem.title,
                 modifier = Modifier.padding(16.dp),
                 fontSize = 18.sp,
-                fontWeight = FontWeight.ExtraBold
+                fontWeight = FontWeight.ExtraBold,
+                color = MaterialTheme.colors.onSurface
             )
         }
     }
@@ -196,7 +195,7 @@ fun ErrorView(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(16.dp)
     ) {
-        Text(text = message, textAlign = TextAlign.Center)
+        Text(text = message, textAlign = TextAlign.Center, color = MaterialTheme.colors.onSurface)
         ErrorButton(onClickRetry = onClickRetry)
     }
 }

@@ -40,23 +40,21 @@ fun ArtDetailsScreen(
 ) {
     val artDetailsState by artDetailsViewModel.artDetailsState.observeAsState()
 
-    Surface {
-        Box(modifier = Modifier.testTag(TAG_ART_DETAILS)) {
-            when (val state = artDetailsState) {
-                is Details -> ArtDetail(state) {
-                    navController.popBackStack()
-                }
-                Error -> Surface {
-                    ErrorView(
-                        modifier = Modifier.align(Alignment.Center),
-                        message = stringResource(id = R.string.global_error_message)
-                    ) {
-                        artDetailsViewModel.onRetry()
-                    }
-                }
-                Loading -> LoadingView(modifier = Modifier.fillMaxSize())
-                else -> Unit
+    Box(modifier = Modifier
+        .background(MaterialTheme.colors.surface)
+        .testTag(TAG_ART_DETAILS)) {
+        when (val state = artDetailsState) {
+            is Details -> ArtDetail(state) {
+                navController.popBackStack()
             }
+            Error -> ErrorView(
+                modifier = Modifier.align(Alignment.Center),
+                message = stringResource(id = R.string.global_error_message)
+            ) {
+                artDetailsViewModel.onRetry()
+            }
+            Loading -> LoadingView(modifier = Modifier.fillMaxSize())
+            else -> Unit
         }
     }
 }
@@ -116,7 +114,8 @@ private fun ArtTitle(text: String) {
     Text(
         text = text,
         style = MaterialTheme.typography.h5,
-        fontWeight = FontWeight.Bold
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colors.onSurface
     )
 }
 
@@ -128,11 +127,13 @@ private fun ArtProperty(@StringRes label: Int, value: String) {
             text = stringResource(id = label),
             modifier = Modifier.height(24.dp),
             style = MaterialTheme.typography.caption,
+            color = MaterialTheme.colors.onSurface
         )
         Text(
             text = value,
             style = MaterialTheme.typography.body1,
-            overflow = TextOverflow.Visible
+            overflow = TextOverflow.Visible,
+            color = MaterialTheme.colors.onSurface
         )
     }
 }

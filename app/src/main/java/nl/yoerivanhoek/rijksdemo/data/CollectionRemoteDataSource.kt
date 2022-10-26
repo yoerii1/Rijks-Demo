@@ -1,5 +1,6 @@
 package nl.yoerivanhoek.rijksdemo.data
 
+import kotlinx.coroutines.delay
 import nl.yoerivanhoek.rijksdemo.data.api.CollectionApiService
 import nl.yoerivanhoek.rijksdemo.data.mapper.ArtCollectionMapper
 import nl.yoerivanhoek.rijksdemo.data.mapper.ArtDetailsMapper
@@ -14,6 +15,7 @@ class CollectionRemoteDataSource(
 
     suspend fun getArtCollection(page: Int, loadSize: Int): List<ArtItem> {
         val response = collectionApiService.getCollection(page, loadSize)
+        delay(10000)
         return collectionMapper.map(response)
     }
 
