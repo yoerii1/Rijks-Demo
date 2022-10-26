@@ -16,10 +16,6 @@ class ArtOverviewViewModel(
     private val artUiModelMapper: ArtUiModelMapper
 ) : ViewModel() {
 
-    init {
-        Log.e("testestest", "$this")
-    }
-
     val artCollectionFlow = getArtItems().map { pagingData ->
         pagingData.map(artUiModelMapper::map)
             .insertSeparators { before, after ->

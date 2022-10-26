@@ -6,9 +6,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyItemScope
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -44,15 +46,15 @@ fun ArtOverviewScreen(
             Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colors.background),
-            state = rememberLazyListState()
+            state = artItems.rememberLazyListState()
         ) {
             for (index in 0 until artItems.itemCount) {
                 artItems.peek(index)?.let {
                     when (it) {
-                        is AuthorSeparator -> stickyHeader(key = it.author) {
+                        is AuthorSeparator -> stickyHeader {
                             AuthorHeader(it.author)
                         }
-                        is ArtItem -> item(key = it.id) {
+                        is ArtItem -> item {
                             val artData = artItems[index] as ArtItem
                             ArtItem(
                                 modifier = Modifier
@@ -196,5 +198,18 @@ fun ErrorView(
     ) {
         Text(text = message, textAlign = TextAlign.Center)
         ErrorButton(onClickRetry = onClickRetry)
+    }
+}
+
+// After recreation, LazyPagingItems first return 0 items, then the cached items.
+// This behavior/issue is resetting the LazyListState scroll position.
+// Below is a workaround. More info: https://issuetracker.google.com/issues/177245496.
+@Composable
+fun <T : Any> LazyPagingItems<T>.rememberLazyListState(): LazyListState {
+    return when (itemCount) {
+        // Return a different LazyListState instance.
+        0 -> remember(this) { LazyListState(0, 0) }
+        // Return rememberLazyListState (normal case).
+        else -> androidx.compose.foundation.lazy.rememberLazyListState()
     }
 }
