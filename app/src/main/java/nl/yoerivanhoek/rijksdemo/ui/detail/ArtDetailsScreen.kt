@@ -26,8 +26,8 @@ import coil.request.ImageRequest
 import nl.yoerivanhoek.rijksdemo.R
 import nl.yoerivanhoek.rijksdemo.TestTags.TAG_ART_DETAILS
 import nl.yoerivanhoek.rijksdemo.ui.generic.Chips
-import nl.yoerivanhoek.rijksdemo.ui.list.ErrorView
 import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.*
+import nl.yoerivanhoek.rijksdemo.ui.generic.ErrorView
 import nl.yoerivanhoek.rijksdemo.ui.generic.LoadingView
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf

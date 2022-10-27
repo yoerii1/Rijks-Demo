@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -28,6 +29,7 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import nl.yoerivanhoek.rijksdemo.R
 import nl.yoerivanhoek.rijksdemo.ui.generic.ErrorButton
+import nl.yoerivanhoek.rijksdemo.ui.generic.ErrorView
 import nl.yoerivanhoek.rijksdemo.ui.generic.LoadingView
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel.ArtItem
@@ -81,25 +83,14 @@ private fun AuthorHeader(author: String) {
             .fillMaxWidth(),
         elevation = 4.dp
     ) {
-        Row(
-            Modifier
-                .padding(all = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Icon(
-                modifier = Modifier.size(36.dp),
-                painter = painterResource(id = R.drawable.ic_twotone_account_circle_24),
-                contentDescription = null
-            )
-            Text(
-                text = author,
-                style = TextStyle(
-                    fontWeight = FontWeight.ExtraBold,
-                    fontSize = 24.sp
-                ),
-            )
-        }
+        Text(
+            modifier = Modifier.padding(all = 16.dp),
+            text = author,
+            style = TextStyle(
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 24.sp
+            ),
+        )
     }
 }
 
@@ -122,18 +113,19 @@ private fun LazyItemScope.ListLoadingItem(lazyArtCollection: LazyPagingItems<Art
 }
 
 @Composable
-private fun ListErrorItem(lazyArtCollection: LazyPagingItems<ArtUiModel>) {
+private fun LazyItemScope.ListErrorItem(lazyArtCollection: LazyPagingItems<ArtUiModel>) {
     val loadState = lazyArtCollection.loadState
     when {
         loadState.refresh is LoadState.Error -> {
-            val error = lazyArtCollection.loadState.refresh as? LoadState.Error
             ErrorView(
-                message = error?.error?.localizedMessage ?: "",
-                modifier = Modifier.fillMaxSize()
+                message = stringResource(id = R.string.global_error_message),
+                modifier = Modifier.fillParentMaxSize()
             ) { lazyArtCollection.retry() }
         }
         loadState.append is LoadState.Error -> {
-            ErrorButton { lazyArtCollection.retry() }
+            Box(modifier = Modifier.fillMaxWidth()) {
+                ErrorButton(modifier = Modifier.align(Alignment.Center)) { lazyArtCollection.retry() }
+            }
         }
     }
 }
@@ -179,24 +171,6 @@ fun ArtItem(modifier: Modifier = Modifier, artItem: ArtItem) {
                 color = MaterialTheme.colors.onSurface
             )
         }
-    }
-}
-
-@Composable
-fun ErrorView(
-    modifier: Modifier = Modifier,
-    message: String,
-    onClickRetry: () -> Unit
-) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(all = 16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(16.dp)
-    ) {
-        Text(text = message, textAlign = TextAlign.Center, color = MaterialTheme.colors.onSurface)
-        ErrorButton(onClickRetry = onClickRetry)
     }
 }
 

@@ -11,9 +11,9 @@ import androidx.compose.ui.unit.dp
 import nl.yoerivanhoek.rijksdemo.R
 
 @Composable
-fun ErrorButton(onClickRetry: () -> Unit) {
+fun ErrorButton(modifier: Modifier = Modifier, onClickRetry: () -> Unit) {
     Button(
-        modifier = Modifier.padding(all = 8.dp),
+        modifier = modifier.padding(all = 8.dp),
         onClick = onClickRetry
     ) {
         Text(
