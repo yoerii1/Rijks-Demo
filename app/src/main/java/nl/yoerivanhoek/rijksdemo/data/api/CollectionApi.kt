@@ -6,7 +6,7 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-interface RijksApi {
+interface CollectionApi {
 
     @GET("/api/nl/collection?s=artist&imgonly=true")
     suspend fun getCollection(@Query("p") page: Int, @Query("ps") loadSize: Int): ArtCollectionResponse

@@ -3,7 +3,7 @@ package nl.yoerivanhoek.rijksdemo
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import nl.yoerivanhoek.rijksdemo.data.api.RijksApi
+import nl.yoerivanhoek.rijksdemo.data.api.CollectionApi
 import nl.yoerivanhoek.rijksdemo.ui.util.TestTags
 import nl.yoerivanhoek.rijksdemo.ui.list.ArtOverviewScreen
 import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
@@ -14,7 +14,6 @@ import org.junit.Test
 import org.junit.runner.RunWith
 import org.koin.core.context.loadKoinModules
 import org.koin.dsl.module
-
 
 @RunWith(AndroidJUnit4::class)
 class ArtOverviewTest {
@@ -31,8 +30,8 @@ class ArtOverviewTest {
     @Before
     fun setUp() {
         loadKoinModules(module {
-            factory<RijksApi> {
-                object : RijksApi {
+            factory<CollectionApi> {
+                object : CollectionApi {
                     override suspend fun getCollection(page: Int, loadSize: Int) = dummyCollectionResponse
                     override suspend fun getArtDetails(artId: String) = dummyDetailsResponse
                 }

@@ -4,7 +4,7 @@ import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import nl.yoerivanhoek.rijksdemo.data.api.RijksApi
+import nl.yoerivanhoek.rijksdemo.data.api.CollectionApi
 import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsScreen
 import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
 import org.junit.Before
@@ -31,8 +31,8 @@ class ArtDetailsTest {
     @Before
     fun setUp() {
         loadKoinModules(module {
-            factory<RijksApi> {
-                object : RijksApi {
+            factory<CollectionApi> {
+                object : CollectionApi {
                     override suspend fun getCollection(page: Int, loadSize: Int) =
                         dummyCollectionResponse
 
@@ -52,7 +52,6 @@ class ArtDetailsTest {
                 )
             }
         }
-        Thread.sleep(10_000)
         dummyDetailsResponse.artObject.let {
             composeTestRule.onNodeWithText(it.title).assertIsDisplayed()
             composeTestRule.onNodeWithText(it.principalOrFirstMaker).assertIsDisplayed()

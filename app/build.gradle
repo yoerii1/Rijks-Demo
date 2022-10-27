@@ -12,7 +12,7 @@ android {
     defaultConfig {
         applicationId "nl.yoerivanhoek.rijksdemo"
         minSdk 23
-        targetSdk 33
+        targetSdk 32
         versionCode 1
         versionName "1.0"
 
@@ -94,6 +94,7 @@ dependencies {
     def chuckerVersion = "3.5.2"
 
     debugImplementation "com.github.chuckerteam.chucker:library:$chuckerVersion"
+    androidTestImplementation "com.github.chuckerteam.chucker:library-no-op:$chuckerVersion"
     releaseImplementation "com.github.chuckerteam.chucker:library-no-op:$chuckerVersion"
 
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_ui_version"
@@ -105,11 +106,10 @@ dependencies {
 
     testImplementation 'androidx.paging:paging-runtime-ktx:3.1.1'
     testImplementation "app.cash.turbine:turbine:0.6.0"
-    androidTestImplementation 'androidx.test.ext:junit:1.1.3'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
+
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.2.1"
 
-    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.1"
 
     def mockitoVersion = "4.2.0"
     def mockitoKotlinVersion = "4.0.0"
