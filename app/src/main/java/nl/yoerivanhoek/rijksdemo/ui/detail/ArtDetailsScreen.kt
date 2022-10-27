@@ -19,16 +19,18 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import nl.yoerivanhoek.rijksdemo.R
-import nl.yoerivanhoek.rijksdemo.TestTags.TAG_ART_DETAILS
+import nl.yoerivanhoek.rijksdemo.ui.util.TestTags.TAG_ART_DETAILS
 import nl.yoerivanhoek.rijksdemo.ui.generic.Chips
 import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.*
 import nl.yoerivanhoek.rijksdemo.ui.generic.ErrorView
 import nl.yoerivanhoek.rijksdemo.ui.generic.LoadingView
+import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
 import org.koin.androidx.compose.getViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -40,9 +42,11 @@ fun ArtDetailsScreen(
 ) {
     val artDetailsState by artDetailsViewModel.artDetailsState.observeAsState()
 
-    Box(modifier = Modifier
-        .background(MaterialTheme.colors.surface)
-        .testTag(TAG_ART_DETAILS)) {
+    Box(
+        modifier = Modifier
+            .background(MaterialTheme.colors.surface)
+            .testTag(TAG_ART_DETAILS)
+    ) {
         when (val state = artDetailsState) {
             is Details -> ArtDetail(state) {
                 navController.popBackStack()
@@ -135,5 +139,22 @@ private fun ArtProperty(@StringRes label: Int, value: String) {
             overflow = TextOverflow.Visible,
             color = MaterialTheme.colors.onSurface
         )
+    }
+}
+
+@Composable
+@Preview
+private fun ArtDetailPreview() {
+    RijksDemoTheme {
+        ArtDetail(
+            details = Details(
+                "objectNumber",
+                "title",
+                "description",
+                listOf("types"),
+                "author",
+                "imageUrl",
+            )
+        ) {}
     }
 }

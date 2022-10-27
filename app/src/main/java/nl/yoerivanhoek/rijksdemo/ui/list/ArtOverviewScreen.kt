@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.paging.LoadState
@@ -34,6 +35,7 @@ import nl.yoerivanhoek.rijksdemo.ui.generic.LoadingView
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel.ArtItem
 import nl.yoerivanhoek.rijksdemo.ui.model.ArtUiModel.AuthorSeparator
+import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
 import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -184,5 +186,26 @@ fun <T : Any> LazyPagingItems<T>.rememberLazyListState(): LazyListState {
         0 -> remember(this) { LazyListState(0, 0) }
         // Return rememberLazyListState (normal case).
         else -> androidx.compose.foundation.lazy.rememberLazyListState()
+    }
+}
+
+@Composable
+@Preview
+private fun AuthorHeaderPreview() {
+    RijksDemoTheme {
+        AuthorHeader(author = "Author")
+    }
+}
+
+@Composable
+@Preview
+private fun ArtItemPreview() {
+    RijksDemoTheme {
+        ArtItem(artItem = ArtItem(
+            "id",
+            "title",
+            "author",
+            "imagUrl"
+        ))
     }
 }

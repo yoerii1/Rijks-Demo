@@ -9,15 +9,9 @@ Aapp/src/main/java/nl/yoerivanhoek/rijksdemo/data/api/ApiModule.kt,e/5/e577ee90
 Lapp/src/main/java/nl/yoerivanhoek/rijksdemo/data/api/RijksAuthInterceptor.kt,4/4/44929455e7e0a360b37d27646441b248ca03e7f2
 {
 Kapp/src/main/java/nl/yoerivanhoek/rijksdemo/data/model/ArtDetailResponse.kt,4/2/4220e213df8b2c6cc8c56cb87edca6e0824d4751
-|
-Lapp/src/main/java/nl/yoerivanhoek/rijksdemo/data/api/CollectionApiService.kt,6/f/6fdd9d43ba5c45b35ed676a340b3c3b2f541101d
 r
 Bapp/src/main/java/nl/yoerivanhoek/rijksdemo/ui/model/ArtUiModel.kt,4/c/4c025944744257a91e1606db775a321e9a4ce8fb
-s
-Capp/src/main/java/nl/yoerivanhoek/rijksdemo/domain/model/ArtItem.kt,b/7/b784e8f3b846410d52bf7ffe1a7a7381abffca37
 v
 Fapp/src/main/java/nl/yoerivanhoek/rijksdemo/ui/ArtOverviewViewModel.kt,1/4/145bb8deaf143b1681aa8b9c5e65e3366bbe4dc6
 r
 Bapp/src/main/java/nl/yoerivanhoek/rijksdemo/ui/ArtUiModelMapper.kt,3/5/3534ee228e71719c856f07b8cf364168930a6728
-y
-Iapp/src/main/java/nl/yoerivanhoek/rijksdemo/data/ArtItemRepositoryImpl.kt,9/0/90ccfcc057a4c53cd8d63f5ebbffb049443fed63

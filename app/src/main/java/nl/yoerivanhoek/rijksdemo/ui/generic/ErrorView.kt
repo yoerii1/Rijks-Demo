@@ -7,7 +7,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
 
 @Composable
 fun ErrorView(
@@ -24,5 +26,13 @@ fun ErrorView(
     ) {
         Text(text = message, textAlign = TextAlign.Center, color = MaterialTheme.colors.onSurface)
         ErrorButton(onClickRetry = onClickRetry)
+    }
+}
+
+@Preview
+@Composable
+private fun Preview() {
+    RijksDemoTheme {
+        ErrorView(message = "Error") {}
     }
 }

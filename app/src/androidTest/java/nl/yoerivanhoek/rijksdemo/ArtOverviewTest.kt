@@ -3,7 +3,8 @@ package nl.yoerivanhoek.rijksdemo
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import nl.yoerivanhoek.rijksdemo.data.api.CollectionApiService
+import nl.yoerivanhoek.rijksdemo.data.api.RijksApi
+import nl.yoerivanhoek.rijksdemo.ui.util.TestTags
 import nl.yoerivanhoek.rijksdemo.ui.list.ArtOverviewScreen
 import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
 import org.junit.Before
@@ -30,8 +31,8 @@ class ArtOverviewTest {
     @Before
     fun setUp() {
         loadKoinModules(module {
-            factory<CollectionApiService> {
-                object : CollectionApiService {
+            factory<RijksApi> {
+                object : RijksApi {
                     override suspend fun getCollection(page: Int, loadSize: Int) = dummyCollectionResponse
                     override suspend fun getArtDetails(artId: String) = dummyDetailsResponse
                 }

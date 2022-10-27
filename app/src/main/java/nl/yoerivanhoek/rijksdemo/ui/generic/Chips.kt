@@ -11,6 +11,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import nl.yoerivanhoek.rijksdemo.ui.theme.Purple500
+import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
 
 @Composable
 fun Chips(
@@ -42,5 +43,7 @@ fun Chip(
 @Preview
 @Composable
 private fun Preview() {
-    Chips(titles = listOf("Schilderij", "Model", "Object"))
+    RijksDemoTheme {
+        Chips(titles = listOf("Schilderij", "Model", "Object"))
+    }
 }

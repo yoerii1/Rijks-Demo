@@ -6,7 +6,7 @@ import kotlinx.serialization.json.Json
 import nl.yoerivanhoek.rijksdemo.data.ArtItemRepositoryImpl
 import nl.yoerivanhoek.rijksdemo.data.CollectionPagingSource
 import nl.yoerivanhoek.rijksdemo.data.CollectionRemoteDataSource
-import nl.yoerivanhoek.rijksdemo.data.api.CollectionApiService
+import nl.yoerivanhoek.rijksdemo.data.api.RijksApi
 import nl.yoerivanhoek.rijksdemo.data.api.RijksAuthInterceptor
 import nl.yoerivanhoek.rijksdemo.data.mapper.ArtCollectionMapper
 import nl.yoerivanhoek.rijksdemo.data.mapper.ArtDetailsMapper
@@ -93,7 +93,7 @@ val artModule = module {
             .build()
     }
 
-    single { get<Retrofit>().create(CollectionApiService::class.java) }
+    single { get<Retrofit>().create(RijksApi::class.java) }
 
     single {
         ArtCollectionMapper
