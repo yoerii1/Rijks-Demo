@@ -7,7 +7,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.ArrowBack
+import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
@@ -31,13 +31,13 @@ import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsViewModel.ArtDetailsState.*
 import nl.yoerivanhoek.rijksdemo.ui.generic.ErrorView
 import nl.yoerivanhoek.rijksdemo.ui.generic.LoadingView
 import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
-import org.koin.androidx.compose.getViewModel
+import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
 @Composable
 fun ArtDetailsScreen(
     artId: String,
-    artDetailsViewModel: ArtDetailsViewModel = getViewModel(parameters = { parametersOf(artId) }),
+    artDetailsViewModel: ArtDetailsViewModel = koinViewModel(parameters = { parametersOf(artId) }),
     navController: NavHostController
 ) {
     val artDetailsState by artDetailsViewModel.artDetailsState.observeAsState()
@@ -109,7 +109,7 @@ private fun BackButton(onBackClicked: () -> Unit) {
         onClick = onBackClicked,
         modifier = Modifier.padding(top = 16.dp, start = 16.dp)
     ) {
-        Icon(imageVector = Icons.Rounded.ArrowBack, contentDescription = null)
+        Icon(imageVector = Icons.AutoMirrored.Rounded.ArrowBack, contentDescription = null)
     }
 }
 
