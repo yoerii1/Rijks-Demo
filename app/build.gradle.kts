@@ -6,6 +6,7 @@ plugins {
     id("org.jetbrains.kotlin.plugin.serialization") version "1.6.10"
     id("de.mannodermaus.android-junit5") version "1.8.2.1"
     id("org.jetbrains.kotlin.plugin.compose") version "2.0.0"
+    id("kotlin-parcelize")
 }
 
 android {

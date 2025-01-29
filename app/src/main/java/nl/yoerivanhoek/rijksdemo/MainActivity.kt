@@ -1,8 +1,15 @@
 package nl.yoerivanhoek.rijksdemo
 
 import android.os.Bundle
+import android.os.Parcelable
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.displayCutoutPadding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -10,8 +17,13 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import nl.yoerivanhoek.rijksdemo.ui.detail.ArtDetailsScreen
 import nl.yoerivanhoek.rijksdemo.ui.list.ArtOverviewScreen
+import nl.yoerivanhoek.rijksdemo.ui.navigation.ArtDetailsArgs
+import nl.yoerivanhoek.rijksdemo.ui.navigation.ArtListArgs
 import nl.yoerivanhoek.rijksdemo.ui.theme.RijksDemoTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +31,10 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             RijksDemoTheme {
-                RijksDemoNavHost()
+                RijksDemoNavHost(
+                    modifier = Modifier
+                        .displayCutoutPadding()
+                )
             }
         }
     }
@@ -29,22 +44,22 @@ class MainActivity : ComponentActivity() {
 fun RijksDemoNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = "artlist"
+    startDestination: Parcelable = ArtListArgs
 ) {
     NavHost(
         modifier = modifier,
         navController = navController,
         startDestination = startDestination
     ) {
-        composable("artlist") {
+        composable<ArtListArgs> {
             ArtOverviewScreen(onArtItemClick = { artId ->
-                navController.navigate("artdetails/$artId")
+                val args = ArtDetailsArgs(artId)
+                navController.navigate(args)
             })
         }
-        composable("artdetails/{artId}") { backStackEntry ->
-            backStackEntry.arguments?.getString("artId")?.let { artId ->
-                ArtDetailsScreen(artId, navController = navController)
-            }
+        composable<ArtDetailsArgs> { backStackEntry ->
+            val artDetailsArgs: ArtDetailsArgs = backStackEntry.toRoute()
+            ArtDetailsScreen(artDetailsArgs.artId, navController = navController)
         }
     }
 }
