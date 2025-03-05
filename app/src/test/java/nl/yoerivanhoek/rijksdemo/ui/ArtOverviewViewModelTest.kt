@@ -20,9 +20,7 @@ import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.extension.RegisterExtension
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
-import kotlin.time.ExperimentalTime
 
-@OptIn(ExperimentalTime::class)
 internal class ArtOverviewViewModelTest {
 
     @JvmField

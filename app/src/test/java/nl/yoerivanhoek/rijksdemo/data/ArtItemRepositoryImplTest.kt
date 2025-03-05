@@ -1,6 +1,5 @@
 package nl.yoerivanhoek.rijksdemo.data
 
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import nl.yoerivanhoek.rijksdemo.domain.model.ArtDetails
 import org.junit.jupiter.api.Assertions.assertEquals
@@ -9,7 +8,6 @@ import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
 
-@OptIn(ExperimentalCoroutinesApi::class)
 internal class ArtItemRepositoryImplTest {
     private val collectionPagingSource: CollectionPagingSource = mock()
     private val collectionRemoteDataSource: CollectionRemoteDataSource = mock()

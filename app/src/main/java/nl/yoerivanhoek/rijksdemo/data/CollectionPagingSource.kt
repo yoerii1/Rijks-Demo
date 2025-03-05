@@ -8,10 +8,6 @@ class CollectionPagingSource(
     private val collectionRemoteDataSource: CollectionRemoteDataSource
 ) : PagingSource<Int, ArtItem>() {
 
-    private companion object {
-        const val RIJKS_STARTING_PAGE_INDEX = 1
-    }
-
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, ArtItem> {
         val position = params.key ?: RIJKS_STARTING_PAGE_INDEX
         return try {
@@ -32,5 +28,9 @@ class CollectionPagingSource(
             state.closestPageToPosition(anchorPosition)?.prevKey?.plus(1)
                 ?: state.closestPageToPosition(anchorPosition)?.nextKey?.minus(1)
         }
+    }
+
+    private companion object {
+        const val RIJKS_STARTING_PAGE_INDEX = 1
     }
 }
