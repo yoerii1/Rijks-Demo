@@ -1,4 +1,7 @@
 # Rijks-Demo
+Bol.com interview process required an Android project that could be discussed during the technical interview. 
+I decided to reuse the assessment I did for Albert Heijn. Below this line is the original readme for that assessment:
+
 Demo project as part of AH hiring process. It consumes the Rijksmuseum API and shows a list of art items as well as a detail screen
 with more details about the art items.
 
